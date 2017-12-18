@@ -58,6 +58,19 @@ namespace SignalrGameServer
                 }
                 
             }
+
+            if (characters.Count > 1)
+            {
+                //start timer
+
+            }
+            return null;
+        }
+
+        //FOR COLLECTABLES
+        public CollectableData UpdateCollectables()
+        {
+            
             return null;
         }
 

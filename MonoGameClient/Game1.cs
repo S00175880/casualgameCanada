@@ -8,6 +8,7 @@ using Engine.Engines;
 using Sprites;
 using System.Collections.Generic;
 using GameComponentNS;
+using MonoGameClient.GameObjects;
 
 namespace MonoGameClient
 {
@@ -48,9 +49,9 @@ namespace MonoGameClient
 
             // TODO: Add your initialization logic here change local host to newly created local host
             //http://s00175879gameserver.azurewebsites.net
-            //serverConnection = new HubConnection("http://localhost:53922/");
+            serverConnection = new HubConnection("http://localhost:53922/");
 
-            serverConnection = new HubConnection("http://s00175879gameserver.azurewebsites.net");
+            //serverConnection = new HubConnection("http://s00175879gameserver.azurewebsites.net");
             serverConnection.StateChanged += ServerConnection_StateChanged;
             proxy = serverConnection.CreateHubProxy("GameHub");
             serverConnection.Start();
@@ -65,10 +66,25 @@ namespace MonoGameClient
             Action<string, Position> otherMove = clientOtherMoved;
             proxy.On<string, Position>("OtherMove", otherMove);
 
+            Action<List<CollectableData>> updateCollectables = clientCollectables;
+            proxy.On<List<CollectableData>>("UpdateCollectables", updateCollectables);
+
             // Add the proxy client as a Game service o components can send messages 
             Services.AddService<IHubProxy>(proxy);
 
             base.Initialize();
+        }
+
+        //NEW FOR COLLECTABLES
+        private void clientCollectables(List<CollectableData> otherCollectables)
+        {
+            foreach (CollectableData collectable in otherCollectables)
+            {
+                // Create an other player sprites in this client afte
+                new Collectables(this, collectable, Content.Load<Texture2D>(collectable.CollectableImageName),
+                                        new Point(collectable.CollectablePosition.X, collectable.CollectablePosition.Y));
+                connectionMessage = collectable.CollectableID + " delivered ";
+            }
         }
 
         private void clientOtherMoved(string playerID, Position newPos)
@@ -165,6 +181,11 @@ namespace MonoGameClient
             // Create an other player sprites in this client afte
             new SimplePlayerSprite(this, player, Content.Load<Texture2D>(player.imageName),
                                     new Point(player.playerPosition.X, player.playerPosition.Y));
+
+        
+
+            //new FadeText(this, Vector2.Zero, "You rock " + player.GamerTag);
+
             connectionMessage = player.playerID + " created ";
 
             new FadeText(this, Vector2.Zero, "Welcome" + player.GamerTag + "you are playing as " + player.imageName);

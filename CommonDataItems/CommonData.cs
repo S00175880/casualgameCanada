@@ -22,4 +22,11 @@ namespace CommonDataItems
         public Position playerPosition;
         public string Password;
     }
+    //FOR COLLECTABLES
+    public class CollectableData
+    {
+        public string CollectableID;
+        public string CollectableImageName = string.Empty;
+        public Position CollectablePosition;
+    }
 }

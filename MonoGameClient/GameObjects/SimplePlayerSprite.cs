@@ -53,17 +53,21 @@ namespace Sprites
 
             delay -= gameTime.ElapsedGameTime.Milliseconds;
             // if we have moved pull back the proxy reference and send a message to the hub
-           // if(Position != previousPosition)
-            if(Position != previousPosition && delay <= 0)
-            {
-                delay = 100;
+            // if(Position != previousPosition)
+
+            //CANNOT USE DELAY IF USING OVERRIDE VOID UPDATE IN FUNCTION OF OtherPlayers.cs
+            //  if(Position != previousPosition && delay <= 0)
+            // {
+            //   delay = 100;
+
                 pData.playerPosition = new Position { X = Position.X, Y = Position.Y };
                 IHubProxy proxy = Game.Services.GetService<IHubProxy>();
                 proxy.Invoke("Moved", new Object[] 
                 {
                     pData.playerID,
                     pData.playerPosition});
-            }
+           
+            // }
 
             BoundingRect = new Rectangle(Position.X, Position.Y, Image.Width, Image.Height);
             base.Update(gameTime);
