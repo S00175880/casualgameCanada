@@ -26,6 +26,24 @@ namespace SignalrGameServer
         public static Stack<string> characters = new Stack<string>(
                     new string[] { "Player 4", "Player 3", "Player 2", "Player 1" });
 
+
+
+        //FOR COLLECTABLES
+        public static Queue<CollectableData> CollectableDisplayed = new Queue<CollectableData>(new CollectableData[]
+{
+            new CollectableData {  CollectableImageName = "", CollectableID = Guid.NewGuid().ToString()},
+            new CollectableData {  CollectableImageName = "", CollectableID = Guid.NewGuid().ToString()},
+            new CollectableData {  CollectableImageName = "", CollectableID = Guid.NewGuid().ToString()},
+            new CollectableData {  CollectableImageName = "", CollectableID = Guid.NewGuid().ToString()},
+});
+
+        public static List<CollectableData> Collectables = new List<CollectableData>();
+
+        public static Stack<string> charactersCollectables = new Stack<string>(
+                    new string[] { "Player 4", "Player 3", "Player 2", "Player 1" });
+        //END COLLECTABLES
+
+
         #endregion
 
         public void Hello()
@@ -68,9 +86,30 @@ namespace SignalrGameServer
         }
 
         //FOR COLLECTABLES
-        public CollectableData UpdateCollectables()
+        public CollectableData CollectablesJoin()
         {
-            
+            if (charactersCollectables.Count > 0)
+            {
+                string charactersCollectable = charactersCollectables.Pop();
+                // if there is a registered player
+                if (CollectableDisplayed.Count > 0)
+                {
+                    CollectableData newPlayer = CollectableDisplayed.Dequeue();
+                    newPlayer.CollectableImageName = charactersCollectable;
+                    newPlayer.CollectablePosition = new Position
+                    {
+                        X = new Random().Next(700),
+                        Y = new Random().Next(500)
+                    };
+                    // Tell all the other clients that this player has Joined
+                    Clients.Others.Joined(newPlayer);
+                    // Tell this client about all the other current 
+                    Clients.Caller.CurrentPlayers(Collectables);
+                    // Finaly add the new player on teh server
+                    Collectables.Add(newPlayer);
+                    return newPlayer;
+                }
+            }
             return null;
         }
 

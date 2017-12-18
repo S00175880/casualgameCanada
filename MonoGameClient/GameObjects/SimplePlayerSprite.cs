@@ -76,18 +76,18 @@ namespace Sprites
 
         public override void Draw(GameTime gameTime)
         {
-            string playerTag = playerData.GamerTag;            
+            //string playerTag = playerData.GamerTag;            
             SpriteBatch sp = Game.Services.GetService<SpriteBatch>();
-            SpriteFont font = Game.Services.GetService<SpriteFont>();
-            Vector2 fontSize = font.MeasureString(playerTag);
-            Vector2 textPos = BoundingRect.Location.ToVector2() - new Vector2(0, 0);
+            //SpriteFont font = Game.Services.GetService<SpriteFont>();
+            //Vector2 fontSize = font.MeasureString(playerTag);
+            //Vector2 textPos = BoundingRect.Location.ToVector2() - new Vector2(0, 0);
 
             if (sp == null) return;
             if (Image != null && Visible)
             {
                 sp.Begin();
                 sp.Draw(Image, BoundingRect, tint);
-                sp.DrawString(font, playerTag, textPos, Color.White);
+                //sp.DrawString(font, playerTag, textPos, Color.White);
                 sp.End();
             }
 

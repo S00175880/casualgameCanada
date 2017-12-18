@@ -166,11 +166,38 @@ namespace MonoGameClient
                                 // Here we'll want to create our game player using the image name in the PlayerData 
                                 // Player Data packet to choose the image for the player
                                 // We'll use a simple sprite player for the purposes of demonstration 
-
+                                
                             }
                             
                         });
-            
+
+
+
+
+
+
+
+
+
+
+            proxy.Invoke<CollectableData>("CollectablesJoin")
+    .ContinueWith( // This is an inline delegate pattern that processes the message 
+                   // returned from the async Invoke Call
+            (c) => { // Wtih p do 
+                            if (c.Result == null)
+                    connectionMessage = "No player Data returned";
+                else
+                {
+                    CreateCollectables(c.Result);
+                                // Here we'll want to create our game player using the image name in the PlayerData 
+                                // Player Data packet to choose the image for the player
+                                // We'll use a simple sprite player for the purposes of demonstration 
+
+                            }
+
+            });
+
+
 
 
         }
@@ -182,15 +209,22 @@ namespace MonoGameClient
             new SimplePlayerSprite(this, player, Content.Load<Texture2D>(player.imageName),
                                     new Point(player.playerPosition.X, player.playerPosition.Y));
 
-        
-
-            //new FadeText(this, Vector2.Zero, "You rock " + player.GamerTag);
-
             connectionMessage = player.playerID + " created ";
 
-            new FadeText(this, Vector2.Zero, "Welcome" + player.GamerTag + "you are playing as " + player.imageName);
+            //new FadeText(this, Vector2.Zero, "Welcome" + player.GamerTag + "you are playing as " + player.imageName);
           
         }
+        //COLLECTABLE CREATE
+        private void CreateCollectables(CollectableData collectable)
+        {
+            new Collectables(this, collectable, Content.Load<Texture2D>(collectable.CollectableImageName),
+                        new Point(collectable.CollectablePosition.X, collectable.CollectablePosition.Y));
+
+            connectionMessage = collectable.CollectableID + " created ";
+
+            new FadeText(this, Vector2.Zero, "ZZZZZZZZZ"  + collectable.CollectableImageName);
+        }
+        //END COLLECTABLE
 
         /// <summary>
         /// LoadContent will be called once per game and is the place to load

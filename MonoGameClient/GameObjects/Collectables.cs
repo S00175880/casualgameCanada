@@ -36,5 +36,28 @@ namespace MonoGameClient.GameObjects
             CollectablesBoundingRect = new Rectangle(startPosition.X, startPosition.Y, CollectablesImage.Width, CollectablesImage.Height);
             CollectablesTarget = startPosition;
         }
+
+
+        public override void Update(GameTime gameTime)
+        {
+
+            CollectablesBoundingRect = new Rectangle(CollectablesPosition.X, CollectablesPosition.Y,
+                CollectablesImage.Width, CollectablesImage.Height);
+            base.Update(gameTime);
+        }
+
+
+        public override void Draw(GameTime gameTime)
+        {
+            SpriteBatch sp = Game.Services.GetService<SpriteBatch>();
+            if (CollectablesImage != null && Visible)
+            {
+                sp.Begin();
+                sp.Draw(CollectablesImage, CollectablesBoundingRect, tint);
+                sp.End();
+            }
+
+            base.Draw(gameTime);
+        }
     }
 }

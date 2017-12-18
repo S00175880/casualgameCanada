@@ -91,6 +91,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\coin.png" />
     <Content Include="Content\Player 1.png" />
     <Content Include="Content\Player 2.png" />
     <Content Include="Content\Player 3.png" />
