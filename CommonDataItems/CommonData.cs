@@ -21,7 +21,13 @@ namespace CommonDataItems
         public int XP;
         public Position playerPosition;
         public string Password;
+
+        //public PlayerData(string ImgName, string tag, string id, int x, int y)
+        //{
+        //    GamerTag = tag;
+        //}
     }
+
     //FOR COLLECTABLES
     public class CollectableData
     {

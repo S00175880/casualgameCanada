@@ -19,6 +19,7 @@ namespace Sprites
         public bool Visible = true;
         public Color tint = Color.White;
 		public PlayerData pData;
+        public PlayerData playerData;
         public Point previousPosition;		
         public int speed = 5;
         public float delay = 100;
@@ -75,12 +76,18 @@ namespace Sprites
 
         public override void Draw(GameTime gameTime)
         {
+            string playerTag = playerData.GamerTag;            
             SpriteBatch sp = Game.Services.GetService<SpriteBatch>();
+            SpriteFont font = Game.Services.GetService<SpriteFont>();
+            Vector2 fontSize = font.MeasureString(playerTag);
+            Vector2 textPos = BoundingRect.Location.ToVector2() - new Vector2(0, 0);
+
             if (sp == null) return;
             if (Image != null && Visible)
             {
                 sp.Begin();
                 sp.Draw(Image, BoundingRect, tint);
+                sp.DrawString(font, playerTag, textPos, Color.White);
                 sp.End();
             }
 
