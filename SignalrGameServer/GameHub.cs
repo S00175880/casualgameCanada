@@ -94,6 +94,7 @@ namespace SignalrGameServer
                 // if there is a registered player
                 if (CollectableDisplayed.Count > 0)
                 {
+
                     CollectableData newPlayer = CollectableDisplayed.Dequeue();
                     newPlayer.CollectableImageName = charactersCollectable;
                     newPlayer.CollectablePosition = new Position
@@ -108,6 +109,7 @@ namespace SignalrGameServer
                     // Finaly add the new player on teh server
                     Collectables.Add(newPlayer);
                     return newPlayer;
+
                 }
             }
             return null;

@@ -96,6 +96,7 @@
     <Content Include="Content\Player 2.png" />
     <Content Include="Content\Player 3.png" />
     <Content Include="Content\Player 4.png" />
+    <Content Include="Content\spacebackground.jpg" />
     <Content Include="Icon.ico" />
     <Content Include="Scripts\jquery-1.6.4-vsdoc.js" />
     <Content Include="Scripts\jquery-1.6.4.js" />

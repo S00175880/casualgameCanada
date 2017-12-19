@@ -22,6 +22,12 @@ namespace MonoGameClient
         SpriteFont font;
         string connectionMessage = string.Empty;
 
+        //for background
+        Texture2D background;
+        Rectangle mainFrame;
+
+
+
         // SignalR Client object delarations
 
         HubConnection serverConnection;
@@ -177,18 +183,15 @@ namespace MonoGameClient
 
 
 
-
-
-
             proxy.Invoke<CollectableData>("CollectablesJoin")
-    .ContinueWith( // This is an inline delegate pattern that processes the message 
+                .ContinueWith( // This is an inline delegate pattern that processes the message 
                    // returned from the async Invoke Call
             (c) => { // Wtih p do 
                             if (c.Result == null)
-                    connectionMessage = "No player Data returned";
-                else
-                {
-                    CreateCollectables(c.Result);
+                            connectionMessage = "No player Data returned";
+                            else
+                            {
+                                CreateCollectables(c.Result);
                                 // Here we'll want to create our game player using the image name in the PlayerData 
                                 // Player Data packet to choose the image for the player
                                 // We'll use a simple sprite player for the purposes of demonstration 
@@ -233,10 +236,22 @@ namespace MonoGameClient
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            //Load the background
+            background = Content.Load<Texture2D>("spacebackground");
+            //Set the rectangle parameter
+            mainFrame = new Rectangle(0, 0, GraphicsDevice.Viewport.Width * 2, GraphicsDevice.Viewport.Height * 2);
+
+            
+            
+
+
             Services.AddService<SpriteBatch>(spriteBatch);
 
             font = Content.Load<SpriteFont>("Message");
             Services.AddService<SpriteFont>(font);
+
+
             
         }
 
@@ -274,6 +289,10 @@ namespace MonoGameClient
             spriteBatch.Begin();
             spriteBatch.DrawString(font, connectionMessage, new Vector2(10, 10), Color.White);
             // TODO: Add your drawing code here
+
+            //Draws background
+            spriteBatch.Draw(background, mainFrame, Color.White);
+
             spriteBatch.End();
             base.Draw(gameTime);
         }
