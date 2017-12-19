@@ -40,7 +40,7 @@ namespace SignalrGameServer
         public static List<CollectableData> Collectables = new List<CollectableData>();
 
         public static Stack<string> charactersCollectables = new Stack<string>(
-                    new string[] { "Player 4", "Player 3", "Player 2", "Player 1" });
+                    new string[] { "orangecoin", "redcoin", "bluecoin", "blackcoin" });
         //END COLLECTABLES
 
 
@@ -64,8 +64,11 @@ namespace SignalrGameServer
                 {
                     PlayerData newPlayer = RegisteredPlayers.Dequeue();
                     newPlayer.imageName = character;
-                    newPlayer.playerPosition = new Position { X = new Random().Next(700),
-                                                            Y = new Random().Next(500) };
+                    newPlayer.playerPosition = new Position
+                    {
+                        X = new Random().Next(700),
+                        Y = new Random().Next(500)
+                    };
                     // Tell all the other clients that this player has Joined
                     Clients.Others.Joined(newPlayer);
                     // Tell this client about all the other current 
@@ -74,7 +77,7 @@ namespace SignalrGameServer
                     Players.Add(newPlayer);
                     return newPlayer;
                 }
-                
+
             }
 
             if (characters.Count > 1)
@@ -103,12 +106,13 @@ namespace SignalrGameServer
                         Y = new Random().Next(500)
                     };
                     // Tell all the other clients that this player has Joined
-                    Clients.Others.Joined(newPlayer);
+                    Clients.Others.collectableJoined(newPlayer);
                     // Tell this client about all the other current 
-                    Clients.Caller.CurrentPlayers(Collectables);
+                    Clients.Caller.CurrentCollectables(Collectables);
                     // Finaly add the new player on teh server
                     Collectables.Add(newPlayer);
                     return newPlayer;
+
 
                 }
             }

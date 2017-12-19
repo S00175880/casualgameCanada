@@ -5,7 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using CommonDataItems;
-
+using Microsoft.AspNet.SignalR.Client;
 
 namespace MonoGameClient.GameObjects
 {
@@ -31,9 +31,9 @@ namespace MonoGameClient.GameObjects
             // Take a copy of the texture passed down
             CollectablesImage = spriteImage;
             // Take a copy of the start position
-            CollectablesPosition = startPosition;
+            CollectablesPosition = CollectablesPosition = startPosition;
             // Calculate the bounding rectangle
-            CollectablesBoundingRect = new Rectangle(startPosition.X, startPosition.Y, CollectablesImage.Width, CollectablesImage.Height);
+            CollectablesBoundingRect = new Rectangle(CollectablesPosition.X, CollectablesPosition.Y, CollectablesImage.Width, CollectablesImage.Height);
             CollectablesTarget = startPosition;
         }
 

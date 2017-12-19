@@ -72,8 +72,13 @@ namespace MonoGameClient
             Action<string, Position> otherMove = clientOtherMoved;
             proxy.On<string, Position>("OtherMove", otherMove);
 
-            Action<List<CollectableData>> updateCollectables = clientCollectables;
-            proxy.On<List<CollectableData>>("UpdateCollectables", updateCollectables);
+            //FOR COLLECTABLES
+
+            Action<CollectableData> cJoined = collectableJoined;
+            proxy.On<CollectableData>("collectableJoined", cJoined);
+
+            Action<List<CollectableData>> currentCollectables = clientCollectables;
+            proxy.On<List<CollectableData>>("CurrentCollectables", currentCollectables);
 
             // Add the proxy client as a Game service o components can send messages 
             Services.AddService<IHubProxy>(proxy);
@@ -92,6 +97,15 @@ namespace MonoGameClient
                 connectionMessage = collectable.CollectableID + " delivered ";
             }
         }
+
+        private void collectableJoined(CollectableData otherCollectableData)
+        {
+            // Create an other player sprite
+            new Collectables(this, otherCollectableData, Content.Load<Texture2D>(otherCollectableData.CollectableImageName),
+                                    new Point(otherCollectableData.CollectablePosition.X, otherCollectableData.CollectablePosition.Y));
+        }
+
+        //END COLLECTABLES
 
         private void clientOtherMoved(string playerID, Position newPos)
         {
@@ -146,7 +160,7 @@ namespace MonoGameClient
                 connectionMessage = "Disconnected.....";
                 if (State.OldState == ConnectionState.Connected)
                     connectionMessage = "Lost Connection....";
-                Connected = false;
+                    Connected = false;
                 break;
             case ConnectionState.Connecting:
                 connectionMessage = "Connecting.....";
@@ -195,13 +209,8 @@ namespace MonoGameClient
                                 // Here we'll want to create our game player using the image name in the PlayerData 
                                 // Player Data packet to choose the image for the player
                                 // We'll use a simple sprite player for the purposes of demonstration 
-
                             }
-
             });
-
-
-
 
         }
 
@@ -217,6 +226,7 @@ namespace MonoGameClient
             //new FadeText(this, Vector2.Zero, "Welcome" + player.GamerTag + "you are playing as " + player.imageName);
           
         }
+
         //COLLECTABLE CREATE
         private void CreateCollectables(CollectableData collectable)
         {
@@ -242,16 +252,10 @@ namespace MonoGameClient
             //Set the rectangle parameter
             mainFrame = new Rectangle(0, 0, GraphicsDevice.Viewport.Width * 2, GraphicsDevice.Viewport.Height * 2);
 
-            
-            
-
-
             Services.AddService<SpriteBatch>(spriteBatch);
 
             font = Content.Load<SpriteFont>("Message");
             Services.AddService<SpriteFont>(font);
-
-
             
         }
 
@@ -272,7 +276,10 @@ namespace MonoGameClient
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
+            {
+                Exit();   
+            }
+                
 
             // TODO: Add your update logic here
 
