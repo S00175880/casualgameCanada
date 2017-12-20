@@ -26,6 +26,10 @@ namespace MonoGameClient
         Texture2D background;
         Rectangle mainFrame;
 
+        public PlayerData pData;
+
+        public bool timerSwtich = false;
+
 
 
         // SignalR Client object delarations
@@ -79,6 +83,9 @@ namespace MonoGameClient
 
             Action<List<CollectableData>> currentCollectables = clientCollectables;
             proxy.On<List<CollectableData>>("CurrentCollectables", currentCollectables);
+
+            //FOR TIMER
+
 
             // Add the proxy client as a Game service o components can send messages 
             Services.AddService<IHubProxy>(proxy);
@@ -135,6 +142,8 @@ namespace MonoGameClient
                 new OtherPlayerSprite(this, player, Content.Load<Texture2D>(player.imageName),
                                         new Point(player.playerPosition.X, player.playerPosition.Y));
                 connectionMessage = player.playerID + " delivered ";
+
+                new FadeText(this, Vector2.Zero, "ClientPlayers");
             }
         }
 
@@ -143,6 +152,10 @@ namespace MonoGameClient
             // Create an other player sprite
             new OtherPlayerSprite(this, otherPlayerData, Content.Load<Texture2D>(otherPlayerData.imageName),
                                     new Point(otherPlayerData.playerPosition.X, otherPlayerData.playerPosition.Y));
+
+            new FadeText(this, Vector2.Zero, "ClientJoined");//infroms current players that this player joined
+
+            timerSwtich = true;
         }
 
 
@@ -193,10 +206,6 @@ namespace MonoGameClient
 
 
 
-
-
-
-
             proxy.Invoke<CollectableData>("CollectablesJoin")
                 .ContinueWith( // This is an inline delegate pattern that processes the message 
                    // returned from the async Invoke Call
@@ -212,6 +221,11 @@ namespace MonoGameClient
                             }
             });
 
+
+
+            proxy.Invoke("hello");
+
+
         }
 
         // When we get new player Data Create 
@@ -223,7 +237,7 @@ namespace MonoGameClient
 
             connectionMessage = player.playerID + " created ";
 
-            //new FadeText(this, Vector2.Zero, "Welcome" + player.GamerTag + "you are playing as " + player.imageName);
+            new FadeText(this, Vector2.Zero, "Welcome" + player.GamerTag + "you are playing as " + player.imageName);
           
         }
 
@@ -235,7 +249,7 @@ namespace MonoGameClient
 
             connectionMessage = collectable.CollectableID + " created ";
 
-            new FadeText(this, Vector2.Zero, "ZZZZZZZZZ"  + collectable.CollectableImageName);
+            //new FadeText(this, Vector2.Zero, "ZZZZZZZZZ"  + collectable.CollectableImageName);
         }
         //END COLLECTABLE
 
@@ -277,11 +291,19 @@ namespace MonoGameClient
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
-                Exit();   
-            }
+                Exit();
                 
+            }
 
+            new TimeText(this, Vector2.Zero, "ClientPlayers");
             // TODO: Add your update logic here
+
+            if (timerSwtich == true)
+            {
+                new FadeText(this, Vector2.Zero, "ClientPlayers");
+            }
+            
+
 
             base.Update(gameTime);
         }

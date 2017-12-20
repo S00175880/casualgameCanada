@@ -67,11 +67,12 @@ namespace Sprites
                 {
                     pData.playerID,
                     pData.playerPosition});
-           
+
             // }
 
             BoundingRect = new Rectangle(Position.X, Position.Y, Image.Width, Image.Height);
             base.Update(gameTime);
+
         }
 
         public override void Draw(GameTime gameTime)

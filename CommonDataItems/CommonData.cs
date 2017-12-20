@@ -22,6 +22,8 @@ namespace CommonDataItems
         public Position playerPosition;
         public string Password;
 
+        public bool timerSwitch = false;
+
         //public PlayerData(string ImgName, string tag, string id, int x, int y)
         //{
         //    GamerTag = tag;
@@ -35,4 +37,5 @@ namespace CommonDataItems
         public string CollectableImageName = string.Empty;
         public Position CollectablePosition;
     }
+
 }

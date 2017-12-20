@@ -76,13 +76,9 @@ namespace SignalrGameServer
                     // Finaly add the new player on teh server
                     Players.Add(newPlayer);
                     return newPlayer;
+
+
                 }
-
-            }
-
-            if (characters.Count > 1)
-            {
-                //start timer
 
             }
             return null;
@@ -133,6 +129,7 @@ namespace SignalrGameServer
                 Clients.Others.OtherMove(playerID,newPosition);
             }
         }
+
 
     }
 }
