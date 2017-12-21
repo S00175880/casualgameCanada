@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="Game1.cs" />
     <Compile Include="GameObjects\Collectables.cs" />
+    <Compile Include="GameObjects\ScoreText.cs" />
     <Compile Include="GameObjects\TimeText.cs" />
     <Compile Include="GameObjects\FadeText.cs" />
     <Compile Include="GameObjects\InputEngine.cs" />

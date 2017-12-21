@@ -13,7 +13,7 @@ namespace MonoGameClient.GameObjects
     {
         public Texture2D CollectablesImage;
         public Point CollectablesPosition;
-        public Rectangle CollectablesBoundingRect;
+        public static Rectangle CollectablesBoundingRect;
         public bool CollectablesVisible = true;
         public Color tint = Color.White;
         public CollectableData cData;

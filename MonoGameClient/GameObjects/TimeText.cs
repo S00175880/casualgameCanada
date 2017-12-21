@@ -58,12 +58,12 @@ namespace GameComponentNS
         {
             game.Components.Add(this);
             text = Text;
-            this.Position = new Vector2(Position.X + 320, Position.Y);
+            this.Position = new Vector2(Position.X + 520, Position.Y);
         }
 
         public override void Update(GameTime gameTime)
         {
-            if(blend > 0)
+            if (blend > 0)
                 blend--;
             else { Game.Components.Remove(this); }
             base.Update(gameTime);
@@ -73,9 +73,9 @@ namespace GameComponentNS
         {
             var sp = Game.Services.GetService<SpriteBatch>();
             var font = Game.Services.GetService<SpriteFont>();
-            Color myColor = new Color((byte)0, (byte)0, (byte)0, blend);
-            sp.Begin(SpriteSortMode.Immediate,BlendState.Additive);
-            sp.DrawString(font, text, Position, new Color((byte)0, (byte)255, (byte)255, blend));
+            //Color myColor = new Color((byte)0, (byte)0, (byte)0, blend);
+            sp.Begin(SpriteSortMode.Immediate,BlendState.Opaque);
+            sp.DrawString(font, text, Position, new Color((byte)0, (byte)255, (byte)255));
             sp.End();
             base.Draw(gameTime);
         }

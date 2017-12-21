@@ -30,6 +30,8 @@ namespace MonoGameClient
 
         public bool timerSwtich = false;
 
+        public float localTime = 5;
+
 
 
         // SignalR Client object delarations
@@ -83,9 +85,6 @@ namespace MonoGameClient
 
             Action<List<CollectableData>> currentCollectables = clientCollectables;
             proxy.On<List<CollectableData>>("CurrentCollectables", currentCollectables);
-
-            //FOR TIMER
-
 
             // Add the proxy client as a Game service o components can send messages 
             Services.AddService<IHubProxy>(proxy);
@@ -144,6 +143,8 @@ namespace MonoGameClient
                 connectionMessage = player.playerID + " delivered ";
 
                 new FadeText(this, Vector2.Zero, "ClientPlayers");
+
+                localTime = 60000;
             }
         }
 
@@ -155,7 +156,7 @@ namespace MonoGameClient
 
             new FadeText(this, Vector2.Zero, "ClientJoined");//infroms current players that this player joined
 
-            timerSwtich = true;
+            localTime = 60000;
         }
 
 
@@ -282,6 +283,11 @@ namespace MonoGameClient
             // TODO: Unload any non ContentManager content here
         }
 
+
+        private void timer(PlayerData player)
+        {
+            new TimeText(this, Vector2.Zero, "Time:" + localTime);
+        }
         /// <summary>
         /// Allows the game to run logic such as updating the world,
         /// checking for collisions, gathering input, and playing audio.
@@ -294,16 +300,20 @@ namespace MonoGameClient
                 Exit();
                 
             }
-
-            new TimeText(this, Vector2.Zero, "ClientPlayers");
+            
+            //displays scores for player (from collision function in SimplePlayerSprite.cs)
+            new ScoreText(this, Vector2.Zero, "Score:           " + SimplePlayerSprite.points);
             // TODO: Add your update logic here
 
-            if (timerSwtich == true)
+
+
+            new TimeText(this, Vector2.Zero, "Time:" + localTime);
+
+            if (localTime > 5)
             {
-                new FadeText(this, Vector2.Zero, "ClientPlayers");
+                localTime -= gameTime.ElapsedGameTime.Milliseconds;
             }
             
-
 
             base.Update(gameTime);
         }

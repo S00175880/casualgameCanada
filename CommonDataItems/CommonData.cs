@@ -22,7 +22,7 @@ namespace CommonDataItems
         public Position playerPosition;
         public string Password;
 
-        public bool timerSwitch = false;
+        public float timer;
 
         //public PlayerData(string ImgName, string tag, string id, int x, int y)
         //{

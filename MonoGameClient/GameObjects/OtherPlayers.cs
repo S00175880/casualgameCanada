@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using CommonDataItems;
+using MonoGameClient.GameObjects;
 
 namespace Sprites
 {
@@ -17,7 +18,7 @@ namespace Sprites
         public Color tint = Color.White;
 		public PlayerData pData;
         public Point Target;
-		
+
         // Constructor epects to see a loaded Texture
         // and a start position
         public OtherPlayerSprite(Game game, PlayerData data, Texture2D spriteImage,
@@ -36,6 +37,8 @@ namespace Sprites
 
         public override void Update(GameTime gameTime)
         {
+
+
             if (Vector2.Distance(Position.ToVector2(), Target.ToVector2()) > 0.1f)
             {
                 Position = Vector2.Lerp(Position.ToVector2(), Target.ToVector2(), 0.1f).ToPoint();

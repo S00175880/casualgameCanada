@@ -77,7 +77,6 @@ namespace SignalrGameServer
                     Players.Add(newPlayer);
                     return newPlayer;
 
-
                 }
 
             }
