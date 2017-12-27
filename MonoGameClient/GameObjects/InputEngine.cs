@@ -185,15 +185,32 @@ namespace Engine.Engines
 
         private void CheckForTextInput()
         {
-            foreach(var key in Enum.GetValues(typeof(Keys)) as Keys[])
+            foreach (var key in Enum.GetValues(typeof(Keys)) as Keys[])
             {
-                if(IsKeyPressed(key))
+                if (IsKeyPressed(key)
+                    && key != Keys.Enter
+                    && key != Keys.Tab
+                    && key != Keys.F10
+                    && key != Keys.Back
+                    && key != Keys.Space)
                 {
                     KeysPressedInLastFrame.Add(key.ToString());
                     break;
                 }
             }
         }
+
+        //private void CheckForTextInput()
+        //{
+        //    foreach(var key in Enum.GetValues(typeof(Keys)) as Keys[])
+        //    {
+        //        if(IsKeyPressed(key))
+        //        {
+        //            KeysPressedInLastFrame.Add(key.ToString());
+        //            break;
+        //        }
+        //    }
+        //}
 
         public static bool IsButtonPressed(Buttons buttonToCheck)
         {

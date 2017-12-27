@@ -9,6 +9,8 @@ using Sprites;
 using System.Collections.Generic;
 using GameComponentNS;
 using MonoGameClient.GameObjects;
+using textInput;
+using System.Text;
 
 namespace MonoGameClient
 {
@@ -17,6 +19,7 @@ namespace MonoGameClient
     /// </summary>
     public class Game1 : Game
     {
+        public enum PlayerDataState { LOGGEDOUT, LOGGEDIN, CHARACTER_ASSIGNED }
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         SpriteFont font;
@@ -27,6 +30,7 @@ namespace MonoGameClient
         Rectangle mainFrame;
 
         public PlayerData pData;
+        PlayerDataState state = PlayerDataState.LOGGEDOUT;
 
         public bool timerSwtich = false;
 
@@ -58,7 +62,8 @@ namespace MonoGameClient
             new FadeTextManager(this);
             // create input engine
             new InputEngine(this);
-
+            Helpers.GraphicsDevice = GraphicsDevice;
+            new GetGameInputComponent(this);
             // TODO: Add your initialization logic here change local host to newly created local host
             //http://s00175879gameserver.azurewebsites.net
             serverConnection = new HubConnection("http://localhost:53922/");
@@ -71,6 +76,10 @@ namespace MonoGameClient
 
             Action<PlayerData> joined = clientJoined;
             proxy.On<PlayerData>("Joined", joined);
+
+            //Action<List<PlayerData>> usrlogin = checkLogin;
+            //proxy.On<List<PlayerData>>("checkLogin", usrlogin);
+
 
             Action<List<PlayerData>> currentPlayers = clientPlayers;
             proxy.On<List<PlayerData>>("CurrentPlayers", currentPlayers);
@@ -183,9 +192,35 @@ namespace MonoGameClient
 
         }
     }
+
+        private void checkLogin()
+        {
+            if (Connected && GetGameInputComponent.name != string.Empty && GetGameInputComponent.password != string.Empty
+
+                )
+            {
+                proxy.Invoke<PlayerData>("checkCredentials",
+                    new object[] { GetGameInputComponent.name, GetGameInputComponent.password })
+                    .ContinueWith( // This is an inline delegate pattern that processes the message 
+                                   // returned from the async Invoke Call
+                            (p) =>
+                            { // With p do 
+                                if (p.Result == null)
+                                    connectionMessage = "Invalid Login";
+                                else
+                                {
+                                    pData = p.Result;
+                                    state = PlayerDataState.LOGGEDIN;
+                                }
+                            });
+            }
+        }
+
         private void startGame()
         {
             // Continue on and subscribe to the incoming messages joined, currentPlayers, otherMove messages
+
+          
 
             // Immediate Pattern
             proxy.Invoke<PlayerData>("Join")
@@ -296,8 +331,20 @@ namespace MonoGameClient
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-            {
                 Exit();
+            {
+                switch (state)
+                {
+                    case PlayerDataState.LOGGEDOUT:
+                        if (Connected)
+                        {
+                            checkLogin();
+                        }
+                        break;
+                    case PlayerDataState.LOGGEDIN:
+                        break;
+                }
+                
                 
             }
             
@@ -313,7 +360,8 @@ namespace MonoGameClient
             {
                 localTime -= gameTime.ElapsedGameTime.Milliseconds;
             }
-            
+
+          
 
             base.Update(gameTime);
         }
@@ -324,6 +372,11 @@ namespace MonoGameClient
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
+             if (state == PlayerDataState.LOGGEDIN)
+            {
+               
+            }
+
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
             spriteBatch.DrawString(font, connectionMessage, new Vector2(10, 10), Color.White);
@@ -332,7 +385,9 @@ namespace MonoGameClient
             //Draws background
             spriteBatch.Draw(background, mainFrame, Color.White);
 
+    
             spriteBatch.End();
+
             base.Draw(gameTime);
         }
     }
