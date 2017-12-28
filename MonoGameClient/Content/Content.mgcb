@@ -147,3 +147,9 @@
 /processorParam:TextureFormat=Color
 /build:key.png
 
+#begin Defense Line.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Defense Line.mp3
+

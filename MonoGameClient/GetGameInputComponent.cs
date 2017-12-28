@@ -122,7 +122,7 @@ namespace textInput
         public override void Draw(GameTime gameTime)
         {
             
-            GraphicsDevice.Clear(Color.Black);
+            GraphicsDevice.Clear(Color.Turquoise);
             if (!firstText)
                 foreach (var s in input.KeysPressedInLastFrame)
                     Output += s;
@@ -138,8 +138,8 @@ namespace textInput
             spriteBatch.Begin();
             //spriteBatch.DrawString(sfont, keyboard.Output, new Vector2(10, GraphicsDevice.Viewport.Height - 30), Color.LawnGreen);
             if(!firstText)
-                spriteBatch.DrawString(sfont, "User Name " + Output, new Vector2(10, GraphicsDevice.Viewport.Height - 60), Color.Red);
-            else spriteBatch.DrawString(sfont, "Password " + Output, new Vector2(10, GraphicsDevice.Viewport.Height - 60), Color.Red);
+                spriteBatch.DrawString(sfont, "User Name " + Output, new Vector2(10, GraphicsDevice.Viewport.Height - 60), Color.Black);
+            else spriteBatch.DrawString(sfont, "Password " + Output, new Vector2(10, GraphicsDevice.Viewport.Height - 60), Color.Black);
             //spriteBatch.DrawString(sfont, Name, new Vector2(200, 400), Color.White);
             //spriteBatch.DrawString(sfont, Password, new Vector2(200, 440), Color.White);
             spriteBatch.End();

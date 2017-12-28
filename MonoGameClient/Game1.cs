@@ -11,6 +11,7 @@ using GameComponentNS;
 using MonoGameClient.GameObjects;
 using textInput;
 using System.Text;
+using Microsoft.Xna.Framework.Media;
 
 namespace MonoGameClient
 {
@@ -23,6 +24,7 @@ namespace MonoGameClient
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         SpriteFont font;
+        Song backgroundSong;
         string connectionMessage = string.Empty;
 
         //for background
@@ -297,6 +299,12 @@ namespace MonoGameClient
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            //loads the background music
+            this.backgroundSong = Content.Load<Song>("Defense Line");
+            MediaPlayer.Play(backgroundSong);
+
+            MediaPlayer.MediaStateChanged += MediaPlayerStateChanged; 
+
             //Load the background
             background = Content.Load<Texture2D>("spacebackground");
             //Set the rectangle parameter
@@ -307,6 +315,12 @@ namespace MonoGameClient
             font = Content.Load<SpriteFont>("Message");
             Services.AddService<SpriteFont>(font);
             
+        }
+
+        public void MediaPlayerStateChanged(object sender, System.EventArgs e)
+        {
+            MediaPlayer.Volume -= 0.1f;
+            MediaPlayer.Play(backgroundSong);
         }
 
         /// <summary>
@@ -380,12 +394,10 @@ namespace MonoGameClient
             GraphicsDevice.Clear(Color.CornflowerBlue);
             spriteBatch.Begin();
             spriteBatch.DrawString(font, connectionMessage, new Vector2(10, 10), Color.White);
-            // TODO: Add your drawing code here
 
             //Draws background
             spriteBatch.Draw(background, mainFrame, Color.White);
 
-    
             spriteBatch.End();
 
             base.Draw(gameTime);
