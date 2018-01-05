@@ -28,6 +28,11 @@ namespace CommonDataItems
         //{
         //    GamerTag = tag;
         //}
+
+        public PlayerData()
+        {
+
+        }
     }
 
     //FOR COLLECTABLES

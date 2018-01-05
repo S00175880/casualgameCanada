@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using Microsoft.AspNet.SignalR;
 using CommonDataItems;
+using SignalrGameServer;
 
 namespace SignalrGameServer
 {
@@ -49,6 +50,14 @@ namespace SignalrGameServer
         public void Hello()
         {
             Clients.All.hello();
+        }
+
+        public PlayerData checkCredentials(string name, string password)
+        {
+            return GameDataObjects.RegisteredPlayers
+                                  .FirstOrDefault(p => p.PlayerName == name && p.Password == password);
+
+
         }
 
 
