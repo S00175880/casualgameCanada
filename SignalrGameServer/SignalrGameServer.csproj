@@ -131,6 +131,8 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Properties\PublishProfiles\CasualGamesCanada - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\CasualGamesCanada - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\s00175879GameServer - FTP.pubxml" />
     <None Include="Properties\PublishProfiles\s00175879GameServer - Web Deploy.pubxml" />
     <None Include="Properties\PublishProfiles\SignalrGameServer20171123102038.pubxml" />
