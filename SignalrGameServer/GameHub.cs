@@ -20,12 +20,16 @@ namespace SignalrGameServer
             new PlayerData { GamerTag = "Mistic Meg", imageName = "", playerID = Guid.NewGuid().ToString(), XP = 2000 },
             new PlayerData { GamerTag = "Jinxy", imageName = "", playerID = Guid.NewGuid().ToString(), XP = 1200 },
             new PlayerData { GamerTag = "Jabber Jaws", imageName = "", playerID = Guid.NewGuid().ToString(), XP = 3200 },
+            new PlayerData { GamerTag = "James Brown", imageName = "", playerID = Guid.NewGuid().ToString(), XP = 200 },
+            new PlayerData { GamerTag = "Tall James", imageName = "", playerID = Guid.NewGuid().ToString(), XP = 2000 },
+            new PlayerData { GamerTag = "Billy", imageName = "", playerID = Guid.NewGuid().ToString(), XP = 1200 },
+            new PlayerData { GamerTag = "Jimmy", imageName = "", playerID = Guid.NewGuid().ToString(), XP = 3200 },
         });
 
         public static List<PlayerData> Players = new List<PlayerData>();
 
         public static Stack<string> characters = new Stack<string>(
-                    new string[] { "Player 4", "Player 3", "Player 2", "Player 1" });
+                    new string[] { "Player 4", "Player 3", "Player 2", "Player 1" ,"Player 4", "Player 3", "Player 2", "Player 1" });
 
 
 

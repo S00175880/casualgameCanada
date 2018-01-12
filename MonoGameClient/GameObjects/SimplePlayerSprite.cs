@@ -75,9 +75,9 @@ namespace Sprites
             // if(Position != previousPosition)
 
             //CANNOT USE DELAY IF USING OVERRIDE VOID UPDATE IN FUNCTION OF OtherPlayers.cs
-            //  if(Position != previousPosition && delay <= 0)
-            // {
-            //   delay = 100;
+            if (Position != previousPosition && delay <= 0)
+            {
+                delay = 100;
 
                 pData.playerPosition = new Position { X = Position.X, Y = Position.Y };
                 IHubProxy proxy = Game.Services.GetService<IHubProxy>();
@@ -86,7 +86,7 @@ namespace Sprites
                     pData.playerID,
                     pData.playerPosition});
 
-            // }
+            }
 
             BoundingRect = new Rectangle(Position.X, Position.Y, Image.Width, Image.Height);
             base.Update(gameTime);

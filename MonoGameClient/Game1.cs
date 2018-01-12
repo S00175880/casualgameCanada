@@ -27,7 +27,7 @@ namespace MonoGameClient
         Song backgroundSong;
         string connectionMessage = string.Empty;
 
-        //for background
+        //for background image in the game
         Texture2D background;
         Rectangle mainFrame;
 
@@ -36,9 +36,8 @@ namespace MonoGameClient
 
         public bool timerSwtich = false;
 
-        public float localTime = 5;
-
-
+        //variable for the local time for the players;
+        public float localTime = 0;
 
         // SignalR Client object delarations
 
@@ -68,9 +67,9 @@ namespace MonoGameClient
             new GetGameInputComponent(this);
             // TODO: Add your initialization logic here change local host to newly created local host
             //https://casualgamescanada.azurewebsites.net
-            //serverConnection = new HubConnection("http://localhost:53922/");
+            serverConnection = new HubConnection("http://localhost:53922/");
 
-            serverConnection = new HubConnection("https://casualgamescanada.azurewebsites.net");
+            //serverConnection = new HubConnection("https://casualgamescanada.azurewebsites.net");
             serverConnection.StateChanged += ServerConnection_StateChanged;
             proxy = serverConnection.CreateHubProxy("GameHub");
             serverConnection.Start();
@@ -81,7 +80,6 @@ namespace MonoGameClient
 
             //Action<List<PlayerData>> usrlogin = checkLogin;
             //proxy.On<List<PlayerData>>("checkLogin", usrlogin);
-
 
             Action<List<PlayerData>> currentPlayers = clientPlayers;
             proxy.On<List<PlayerData>>("CurrentPlayers", currentPlayers);
@@ -153,8 +151,10 @@ namespace MonoGameClient
                                         new Point(player.playerPosition.X, player.playerPosition.Y));
                 connectionMessage = player.playerID + " delivered ";
 
+                //displays a text on the game screen with the current player id on the screen
                 new FadeText(this, Vector2.Zero, "ClientPlayers");
 
+                //the timer in the game will be set to 60 seconds once a second player joins
                 localTime = 60000;
             }
         }
@@ -222,8 +222,6 @@ namespace MonoGameClient
         {
             // Continue on and subscribe to the incoming messages joined, currentPlayers, otherMove messages
 
-          
-
             // Immediate Pattern
             proxy.Invoke<PlayerData>("Join")
                 .ContinueWith( // This is an inline delegate pattern that processes the message 
@@ -253,16 +251,11 @@ namespace MonoGameClient
                             else
                             {
                                 CreateCollectables(c.Result);
-                                // Here we'll want to create our game player using the image name in the PlayerData 
-                                // Player Data packet to choose the image for the player
-                                // We'll use a simple sprite player for the purposes of demonstration 
+                                //this will create a collectible when the player joins
                             }
             });
 
-
-
             proxy.Invoke("hello");
-
 
         }
 
@@ -279,15 +272,14 @@ namespace MonoGameClient
           
         }
 
-        //COLLECTABLE CREATE
+        //COLLECTABLE CREATE when a player joins 
         private void CreateCollectables(CollectableData collectable)
         {
             new Collectables(this, collectable, Content.Load<Texture2D>(collectable.CollectableImageName),
                         new Point(collectable.CollectablePosition.X, collectable.CollectablePosition.Y));
 
-            connectionMessage = collectable.CollectableID + " created ";
 
-            //new FadeText(this, Vector2.Zero, "ZZZZZZZZZ"  + collectable.CollectableImageName);
+            connectionMessage = collectable.CollectableID + " created ";
         }
         //END COLLECTABLE
 
@@ -358,24 +350,21 @@ namespace MonoGameClient
                     case PlayerDataState.LOGGEDIN:
                         break;
                 }
-                
-                
+                                
             }
-            
+            //SCORE DISPLAY
             //displays scores for player (from collision function in SimplePlayerSprite.cs)
             new ScoreText(this, Vector2.Zero, "Score:           " + SimplePlayerSprite.points);
-            // TODO: Add your update logic here
 
 
-
+            //This Displays the time in the game 
             new TimeText(this, Vector2.Zero, "Time:" + localTime);
 
+            //if the timer time is greater than 5 seconds decrease the time
             if (localTime > 5)
             {
                 localTime -= gameTime.ElapsedGameTime.Milliseconds;
             }
-
-          
 
             base.Update(gameTime);
         }
