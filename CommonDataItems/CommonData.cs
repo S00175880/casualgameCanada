@@ -24,10 +24,6 @@ namespace CommonDataItems
 
         public float timer;
 
-        //public PlayerData(string ImgName, string tag, string id, int x, int y)
-        //{
-        //    GamerTag = tag;
-        //}
 
         public PlayerData()
         {

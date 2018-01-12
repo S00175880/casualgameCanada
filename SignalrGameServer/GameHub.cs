@@ -62,6 +62,8 @@ namespace SignalrGameServer
 
         public PlayerData checkCredentials(string name, string password)
         {
+            //checks for a registered player
+            //If there is a registered player get their Username and Password
             return GameDataObjects.RegisteredPlayers
                                   .FirstOrDefault(p => p.PlayerName == name && p.Password == password);
 

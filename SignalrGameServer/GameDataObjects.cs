@@ -11,17 +11,18 @@ namespace SignalrGameServer
     {
         static public List<PlayerData> RegisteredPlayers = new List<PlayerData>()
             {
+                //stores the info of two regstered players
                 new PlayerData {
                 playerID = Guid.NewGuid().ToString(),
                 //CharacterImage = "Player 1",
-                GamerTag ="High Flyer",  Password = "plrxxx1",
-                PlayerName= "Paul", XP = 2000},
+                GamerTag ="Rocket Man",  Password = "plyrx1",
+                PlayerName= "Stewart", XP = 100},
 
                 new PlayerData {
                 playerID = Guid.NewGuid().ToString(),
                 //CharacterImage = "Player 2",
-                GamerTag ="Bug Hunter",  Password = "plrxxx2",
-                PlayerName= "Fred", XP = 200},
+                GamerTag ="Storm Warning",  Password = "plyrxx2",
+                PlayerName= "Sarah", XP = 400},
 
             };
 

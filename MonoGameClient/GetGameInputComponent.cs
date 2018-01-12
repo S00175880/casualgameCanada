@@ -83,8 +83,8 @@ namespace textInput
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            sfont = Game.Content.Load<SpriteFont>("keyboardfont");
-            keyboard.LoadContent(Game.Content);
+            sfont = Game.Content.Load<SpriteFont>("keyboardfont"); //loads keyboard font
+            keyboard.LoadContent(Game.Content); //loads keyboard
             base.LoadContent();
         }
 
@@ -92,6 +92,7 @@ namespace textInput
         {
             keyboard.Update(gameTime);
 
+            //grabs key input and stores it in the Output
             if (InputEngine.IsKeyPressed(Keys.Enter) && !firstText && !Done)
             {
                 Name = Output; 
@@ -114,6 +115,8 @@ namespace textInput
             if (InputEngine.IsKeyPressed(Keys.Space))
                 Output += " ";
 
+            //
+
                 base.Update(gameTime);
         }
 
@@ -121,7 +124,7 @@ namespace textInput
 
         public override void Draw(GameTime gameTime)
         {
-            
+            //Draws the background for the keyboard
             GraphicsDevice.Clear(Color.Turquoise);
             if (!firstText)
                 foreach (var s in input.KeysPressedInLastFrame)
@@ -136,12 +139,9 @@ namespace textInput
             keyboard.Draw();
             if (Done) return;
             spriteBatch.Begin();
-            //spriteBatch.DrawString(sfont, keyboard.Output, new Vector2(10, GraphicsDevice.Viewport.Height - 30), Color.LawnGreen);
             if(!firstText)
-                spriteBatch.DrawString(sfont, "User Name " + Output, new Vector2(10, GraphicsDevice.Viewport.Height - 60), Color.Black);
-            else spriteBatch.DrawString(sfont, "Password " + Output, new Vector2(10, GraphicsDevice.Viewport.Height - 60), Color.Black);
-            //spriteBatch.DrawString(sfont, Name, new Vector2(200, 400), Color.White);
-            //spriteBatch.DrawString(sfont, Password, new Vector2(200, 440), Color.White);
+                spriteBatch.DrawString(sfont, "User Name " + Output, new Vector2(10, GraphicsDevice.Viewport.Height - 60), Color.Black); //draws the user name that the player inputs
+            else spriteBatch.DrawString(sfont, "Password " + Output, new Vector2(10, GraphicsDevice.Viewport.Height - 60), Color.Black); //draws the password that the player inputs
             spriteBatch.End();
 
             base.Draw(gameTime);
