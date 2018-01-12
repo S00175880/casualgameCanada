@@ -63,8 +63,8 @@ namespace MonoGameClient
             new FadeTextManager(this);
             // create input engine
             new InputEngine(this);
-            Helpers.GraphicsDevice = GraphicsDevice;
-            new GetGameInputComponent(this);
+            Helpers.GraphicsDevice = GraphicsDevice; //for the user keyboard
+            new GetGameInputComponent(this); //for user keyboard
             // TODO: Add your initialization logic here change local host to newly created local host
             //https://casualgamescanada.azurewebsites.net
             serverConnection = new HubConnection("http://localhost:53922/");
@@ -195,6 +195,7 @@ namespace MonoGameClient
         }
     }
 
+        //Checks for a valid user login when a player starts up the game
         private void checkLogin()
         {
             if (Connected && GetGameInputComponent.name != string.Empty && GetGameInputComponent.password != string.Empty
@@ -292,8 +293,8 @@ namespace MonoGameClient
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             //loads the background music
-            this.backgroundSong = Content.Load<Song>("Defense Line");
-            MediaPlayer.Play(backgroundSong);
+            this.backgroundSong = Content.Load<Song>("Defense Line"); //load music 
+            MediaPlayer.Play(backgroundSong); //plays the background music
 
             MediaPlayer.MediaStateChanged += MediaPlayerStateChanged; 
 
