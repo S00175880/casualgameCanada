@@ -37,19 +37,6 @@ namespace Sprites
 
         public override void Update(GameTime gameTime)
         {
-
-
-            //if (Vector2.Distance(Position.ToVector2(), Target.ToVector2()) > 0.1f)
-            //{
-            //    Position = Vector2.Lerp(Position.ToVector2(), Target.ToVector2(), 0.1f).ToPoint();
-            //}
-
-            //else
-            //{
-            //    Position = Target;
-            //}
-
-
             BoundingRect = new Rectangle(Position.X, Position.Y, Image.Width, Image.Height);
             base.Update(gameTime);
         }

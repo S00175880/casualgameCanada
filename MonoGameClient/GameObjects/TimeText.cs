@@ -10,30 +10,11 @@ namespace GameComponentNS
 {
     class TimeTextManager : DrawableGameComponent
     {
-        //Vector2 basePosition;
-
         public TimeTextManager(Game game) : base(game)
         {
             game.Components.Add(this);
-            //basePosition = new Vector2(10, game.GraphicsDevice.Viewport.Height - 20);
         }
-        protected override void LoadContent()
-        {
-            
-            base.LoadContent();
-        }
-
-        public override void Update(GameTime gameTime)
-        {
-            var faders = Game.Components.Where(
-                            t => t.GetType() == typeof(TimeText));
-
-            base.Update(gameTime);
-        }
-
-
     }
-
 
     class TimeText : DrawableGameComponent
     {
@@ -61,6 +42,7 @@ namespace GameComponentNS
             this.Position = new Vector2(Position.X + 520, Position.Y);
         }
 
+
         public override void Update(GameTime gameTime)
         {
             if (blend > 0)
@@ -69,11 +51,18 @@ namespace GameComponentNS
             base.Update(gameTime);
         }
 
+        protected override void LoadContent()
+        {
+            base.LoadContent();
+        }
+
         public override void Draw(GameTime gameTime)
         {
             var sp = Game.Services.GetService<SpriteBatch>();
             var font = Game.Services.GetService<SpriteFont>();
-            //Color myColor = new Color((byte)0, (byte)0, (byte)0, blend);
+            
+            //Makes the Sprite for the text opaque (clear) so that the numbers don't become
+            //a square block (numbers writing on each other)
             sp.Begin(SpriteSortMode.Immediate,BlendState.Opaque);
             sp.DrawString(font, text, Position, new Color((byte)0, (byte)255, (byte)255));
             sp.End();
@@ -82,3 +71,25 @@ namespace GameComponentNS
 
     }
 }
+
+//THE BELOW CODE IS NOT USED
+//public override void Update(GameTime gameTime)
+//{
+//    //var faders = Game.Components.Where(
+//    //                t => t.GetType() == typeof(TimeText));
+
+//    base.Update(gameTime);
+//}
+
+//public override void Update(GameTime gameTime)
+//{
+//    if (blend > 0)
+//        blend--;
+//    else { Game.Components.Remove(this); }
+//    base.Update(gameTime);
+//}
+
+//protected override void LoadContent()
+//{
+//    base.LoadContent();
+//}

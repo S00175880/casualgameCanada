@@ -40,12 +40,16 @@ namespace SignalrGameServer
             new CollectableData {  CollectableImageName = "", CollectableID = Guid.NewGuid().ToString()},
             new CollectableData {  CollectableImageName = "", CollectableID = Guid.NewGuid().ToString()},
             new CollectableData {  CollectableImageName = "", CollectableID = Guid.NewGuid().ToString()},
+            new CollectableData {  CollectableImageName = "", CollectableID = Guid.NewGuid().ToString()},
+            new CollectableData {  CollectableImageName = "", CollectableID = Guid.NewGuid().ToString()},
+            new CollectableData {  CollectableImageName = "", CollectableID = Guid.NewGuid().ToString()},
+            new CollectableData {  CollectableImageName = "", CollectableID = Guid.NewGuid().ToString()},
 });
 
         public static List<CollectableData> Collectables = new List<CollectableData>();
 
         public static Stack<string> charactersCollectables = new Stack<string>(
-                    new string[] { "orangecoin", "redcoin", "bluecoin", "blackcoin" });
+                    new string[] { "orangecoin", "redcoin", "bluecoin", "blackcoin" ,"orangecoin", "redcoin", "bluecoin", "blackcoin" });
         //END COLLECTABLES
 
 
@@ -79,7 +83,7 @@ namespace SignalrGameServer
                     newPlayer.imageName = character;
                     newPlayer.playerPosition = new Position
                     {
-                        X = new Random().Next(700),
+                        X = new Random().Next(500),
                         Y = new Random().Next(500)
                     };
                     // Tell all the other clients that this player has Joined
@@ -110,8 +114,8 @@ namespace SignalrGameServer
                     newPlayer.CollectableImageName = charactersCollectable;
                     newPlayer.CollectablePosition = new Position
                     {
-                        X = new Random().Next(700),
-                        Y = new Random().Next(500)
+                        X = new Random().Next(500),
+                        Y = new Random().Next(400)
                     };
                     // Tell all the other clients that this player has Joined
                     Clients.Others.collectableJoined(newPlayer);
@@ -120,7 +124,6 @@ namespace SignalrGameServer
                     // Finaly add the new player on teh server
                     Collectables.Add(newPlayer);
                     return newPlayer;
-
 
                 }
             }

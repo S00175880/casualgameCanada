@@ -115,13 +115,12 @@ namespace MonoGameClient
 
         private void collectableJoined(CollectableData otherCollectableData)
         {
-            // Create an other player sprite
+            // Create an other collectable sprite
             new Collectables(this, otherCollectableData, Content.Load<Texture2D>(otherCollectableData.CollectableImageName),
                                     new Point(otherCollectableData.CollectablePosition.X, otherCollectableData.CollectablePosition.Y));
         }
 
         //END COLLECTABLES
-
         private void clientOtherMoved(string playerID, Position newPos)
         {
             // iterate over all the other player components 
@@ -167,10 +166,9 @@ namespace MonoGameClient
 
             new FadeText(this, Vector2.Zero, "ClientJoined");//infroms current players that this player joined
 
+            //the timer now starts for all players
             localTime = 60000;
         }
-
-
 
         private void ServerConnection_StateChanged(StateChange State)
     {
