@@ -67,9 +67,9 @@ namespace MonoGameClient
             new GetGameInputComponent(this); //for user keyboard
             // TODO: Add your initialization logic here change local host to newly created local host
             //https://casualgamescanada.azurewebsites.net
-            serverConnection = new HubConnection("http://localhost:53922/");
+            //serverConnection = new HubConnection("http://localhost:53922/");
 
-            //serverConnection = new HubConnection("https://casualgamescanada.azurewebsites.net");
+            serverConnection = new HubConnection("https://casualgamescanada.azurewebsites.net");
             serverConnection.StateChanged += ServerConnection_StateChanged;
             proxy = serverConnection.CreateHubProxy("GameHub");
             serverConnection.Start();
